@@ -8,6 +8,15 @@ connect to patient dashboard user: noah1 pw: noah123
 
 Needs to be done : 
 
-patient login and sign up working 
-left and needs to be done appointment : booking for patient and admin , function and everything are there but i can't have it displayed. 
+appointment update 
+add date of birth for patient / doctor/ nurse 
+book appointment with nurse 
+get nurse invoice to pay 
+request a repeated prescription from doctor 
+description from admin to doctor to patient (comment)
+admin check turnover 
+patient cancel appointment and book new one 
+doctor book surgery with patient, issue prescription, then discharge patient 
+patient pay the bill 
+admin decide to change the fee for 10 min surgery applicable to all types of patients 
 
