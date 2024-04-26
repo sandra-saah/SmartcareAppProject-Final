@@ -519,6 +519,7 @@ def admin_add_patient_view(request):
             patient.user=user
             patient.status=True
             patient.assignedDoctorId=request.POST.get('assignedDoctorId')
+           
             patient.save()
 
             my_patient_group = Group.objects.get_or_create(name='PATIENT')
@@ -553,21 +554,39 @@ def reject_patient_view(request,pk):
     patient.delete()
     return redirect('admin-approve-patient')
 
+
 @login_required(login_url='adminlogin')
 @user_passes_test(is_admin)
 def admin_discharge_patient_view(request):
-    patients=models.Patient.objects.all().filter(status=True)
-    return render(request,'smartcare/admin_discharge_patient.html',{'patients':patients})
+    appointments = models.Appointment.objects.filter(status=True)
+    patients = models.Patient.objects.filter(status=True)
 
+    for appointment in appointments:
+        appointment.doctorName = models.User.objects.get(id=appointment.doctorId).first_name
+        appointment.patientName = models.User.objects.get(id=appointment.patientId).first_name
+
+    mydic = {
+        'appointments': appointments,
+        'patients': patients
+    }
+
+    return render(request, 'smartcare/admin_discharge_patient.html', context=mydic)
 
 
 @login_required(login_url='adminlogin')
 @user_passes_test(is_admin)
 def discharge_patient_view(request,pk):
     patient=models.Patient.objects.get(id=pk)
-    days=(date.today()-patient.admitDate)
+    pDD=models.PatientDischargeDetails()
+    appointments = models.Appointment.objects.all().filter(status=True)
+    for appointment in appointments:
+        appointment.doctorName = models.User.objects.get(id=appointment.doctorId).first_name
+        appointment.patientName = models.User.objects.get(id=appointment.patientId).first_name
+
+    
+    days=(date.today()-patient.admitDate) #2 days, 0:00:00
     assignedDoctor=models.User.objects.all().filter(id=patient.assignedDoctorId)
-    d=days.days 
+    d=days.days # only how many day that is 2
     patientDict={
         'patientId':pk,
         'name':patient.get_name,
@@ -578,7 +597,10 @@ def discharge_patient_view(request,pk):
         'todayDate':date.today(),
         'day':d,
         'assignedDoctorName':assignedDoctor[0].first_name,
+        'appointments': appointments,
+        'patients': patient
     }
+    
     if request.method == 'POST':
         feeDict ={
             'doctorFee':request.POST['doctorFee'],
@@ -586,15 +608,15 @@ def discharge_patient_view(request,pk):
             'OtherCharge' : request.POST['OtherCharge'],
             'total':int(request.POST['doctorFee'])+int(request.POST['medicineCost'])+int(request.POST['OtherCharge'])
         }
+
         patientDict.update(feeDict)
         #for updating to database patientDischargeDetails (pDD)
-        pDD=models.PatientDischargeDetails()
         pDD.patientId=pk
         pDD.patientName=patient.get_name
         pDD.assignedDoctorName=assignedDoctor[0].first_name
         pDD.address=patient.address
         pDD.mobile=patient.mobile
-        pDD.symptoms=patient.symptoms
+        pDD.symptoms=patient.symptoms 
         pDD.admitDate=patient.admitDate
         pDD.releaseDate=date.today()
         pDD.daySpent=int(d)
@@ -603,8 +625,8 @@ def discharge_patient_view(request,pk):
         pDD.OtherCharge=int(request.POST['OtherCharge'])
         pDD.total=int(request.POST['doctorFee'])+int(request.POST['medicineCost'])+int(request.POST['OtherCharge'])
         pDD.save()
-        return render(request,'smartcare/patient_final_bill.html',context=patientDict)
-    return render(request,'smartcare/patient_generate_bill.html',context=patientDict)
+        return render(request,'smartcare/patient_final_bill.html',context=patientDict,)
+    return render(request,'smartcare/patient_generate_bill.html',context=patientDict,)
 
 
 
@@ -646,7 +668,6 @@ def download_pdf_view(request,pk):
     }
     return render_to_pdf('smartcare/download_bill.html',dict)
 
-
 #---------------------------------------------------------------------------------
 #------------------------ INVOICE VIEWS  ------------------------------
 #---------------------------------------------------------------------------------
@@ -658,6 +679,19 @@ def admin_invoice_view(request):
     return render(request,'smartcare/admin_view_invoice.html',{'invoices':invoices})
 
 
+@login_required(login_url='adminlogin')
+@user_passes_test(is_admin)
+def admin_invoice_download(request,pk):
+    patient = models.Patient.objects.get(id=pk)  # Fetch patient based on the provided pk
+    invoices = models.PatientDischargeDetails.objects.filter(patientId=patient.id).order_by('-id')[:1]
+    return render(request, 'smartcare/download_bill.html', {'invoices': invoices})
+
+@login_required(login_url='adminlogin')
+@user_passes_test(is_admin)
+def admin_delete_invoice(request,pk):
+    invoices=models.PatientDischargeDetails.objects.all().filter()
+    invoices.delete()
+    return redirect('admin-view-invoices')
 
 # -------------------------------------------------
 # ___________PATIENT RELATED_________________

@@ -66,8 +66,9 @@ urlpatterns = [
 
     # ADMIN INVOICES 
     path('admin-invoice', views.admin_invoice_view,name='admin-invoice'),
+    path('delete-invoice/<int:pk>/', views.admin_delete_invoice,name='delete-invoice-smartcare'),
 
-
+    
     #Admin Patient Related
     path('admin-patient', views.admin_patient_view, name='admin-patient'),
     path('admin-view-patient', views.admin_view_patient_view, name='admin-view-patient'),
