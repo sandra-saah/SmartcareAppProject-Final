@@ -318,6 +318,25 @@ def admin_delete_appointment(request,pk):
     appointment.delete()
     return redirect('admin-view-appointment')
 
+@login_required(login_url='adminlogin')
+@user_passes_test(is_admin)
+def update_appointment_view(request,pk):
+    appointment=models.Appointment.objects.get(id=pk)
+    appointmentForm=forms.AppointmentForm()
+
+    mydict={'appointmentForm':appointmentForm,}
+    if request.method=='POST':
+        appointmentForm=forms.AppointmentForm(request.POST)
+        if appointmentForm.is_valid():
+            appointment=appointmentForm.save(commit=False)
+            appointment.doctorId=request.POST.get('doctorId')
+            appointment.patientId=request.POST.get('patientId')
+            appointment.doctorName=models.User.objects.get(id=request.POST.get('doctorId')).first_name
+            appointment.patientName=models.User.objects.get(id=request.POST.get('patientId')).first_name
+            appointment.status=True
+            appointment.save()
+            return redirect('admin-view-appointment')
+    return render(request,'smartcare/admin_update_appointment.html',context=mydict)
 
 #---------------------------------------------------------------------------------
 #------------------------ DOCTOR RELATED VIEWS START ------------------------------
@@ -577,6 +596,7 @@ def admin_discharge_patient_view(request):
 @user_passes_test(is_admin)
 def discharge_patient_view(request,pk):
     patient=models.Patient.objects.get(id=pk)
+    patients = models.Patient.objects.filter(status=True)
     pDD=models.PatientDischargeDetails()
     appointments = models.Appointment.objects.all().filter(status=True)
     for appointment in appointments:
@@ -598,7 +618,7 @@ def discharge_patient_view(request,pk):
         'day':d,
         'assignedDoctorName':assignedDoctor[0].first_name,
         'appointments': appointments,
-        'patients': patient
+        'patients': patients
     }
     
     if request.method == 'POST':
@@ -625,9 +645,8 @@ def discharge_patient_view(request,pk):
         pDD.OtherCharge=int(request.POST['OtherCharge'])
         pDD.total=int(request.POST['doctorFee'])+int(request.POST['medicineCost'])+int(request.POST['OtherCharge'])
         pDD.save()
-        return render(request,'smartcare/patient_final_bill.html',context=patientDict,)
-    return render(request,'smartcare/patient_generate_bill.html',context=patientDict,)
-
+        return render(request,'smartcare/patient_final_bill.html',context=patientDict)
+    return render(request,'smartcare/patient_generate_bill.html',context=patientDict)
 
 
 #--------------for discharge patient bill (pdf) download and printing
@@ -778,6 +797,16 @@ def patient_discharge_view(request):
             'patientId':request.user.id,
         }
     return render(request,'smartcare/patient_discharge.html',context=patientDict)
+
+
+
+@login_required(login_url='patientlogin')
+@user_passes_test(is_patient)
+def patient_delete_appointment(request,pk):
+    appointment=models.Appointment.objects.get(id=pk)
+    appointment.delete()
+    return redirect('patient-view-appointment')
+
 
 
 #---------------------------------------------------------------------------------

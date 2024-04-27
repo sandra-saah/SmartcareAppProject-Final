@@ -1,5 +1,7 @@
 Create SmartCare app for final Desd Project
 
+# all users register as : firstname1 & password : firstname123
+
 connect to django admin : create super user admin 
 connect to admin dashbaord usr: admin1 pw: admin123
 connect to nurse dashboard usr : ayan1 pw : ayan123
@@ -21,7 +23,7 @@ connect to patient dashboard user: noah1 pw: noah123
 ## Test 3 : 
 - Dr First (doctor) login, and see daily surgery schedule, suppose that 1st patient needs to be rewarded to specialist, (discharged note eye specialist), admin removing second scheduled appointment for the day, admin checks turnover for the last month.
 
-## Test 4 : 
+## Test 4 : (DONE)
 Ms Lis Brown (patient ), cancels her appointment with mr first (doctor) and books new appointment with the nurse. admin list all NHS patients. admin removes Mr hesitant's from patient's list. attempt to access nurse dashbaord without login. 
 
 ## Test 5:
@@ -30,15 +32,15 @@ Ms Lis Brown (patient ), cancels her appointment with mr first (doctor) and book
 
 Needs to be done : 
 => description in discharge patient 
-appointment update 
-add date of birth for patient / doctor/ nurse (done S)
-book appointment with nurse  (ayan)
-get nurse invoice to pay (ayan)
-request a repeated prescription from doctor (S)
-description from admin to doctor to patient (comment)
-admin check turnover 
-patient cancel appointment and book new one (S)
-doctor book surgery with patient, issue prescription, then discharge patient  
-patient pay the bill 
-admin decide to change the fee for 10 min surgery applicable to all types of patients 
+- appointment update 
+
+-add date of birth for patient (Done) / doctor (Deon) / nurse (andrew)
+-book appointment with nurse  (ayan) (done)
+-get nurse invoice to pay (deon & andrew)
+- patient request a repeated prescription from doctor (deon & andrew)
+-doctor leave a comment for admin & patient (deon & andrew)
+-admin check turnover (deon & andrew)
+-patient cancel appointment and book new one (S) (done)
+-doctor issue prescription (deon & andrew)
+-admin decide to change the fee for 10 min surgery applicable to all types of patients  (deon & andrew)
 
