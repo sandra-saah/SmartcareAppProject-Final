@@ -19,9 +19,11 @@ class DoctorUserForm(forms.ModelForm):
         'password': forms.PasswordInput()
         }
 class DoctorForm(forms.ModelForm):
+    
+    date_of_birth = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), required=True)
     class Meta:
         model=models.Doctor
-        fields=['address','mobile','department','status']
+        fields=['address','mobile','department','status','date_of_birth']
 
 class NurseUserForm(forms.ModelForm):
     class Meta:

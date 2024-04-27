@@ -34,7 +34,7 @@
           <th>Description</th>
           <th>Date</th>
           <th>Time</th>
-          {% comment %} <th>Update</th> {% endcomment %}
+          <th>Update</th>
           <th>Delete</th>
         </tr>
       </thead>
@@ -45,7 +45,7 @@
         <td>{{a.description}}</td>
         <td>{{a.appointmentDate}}</td>
         <td>{{a.appointmentTime}}</td>
-        {% comment %} <td><a class="btn btn-primary btn-xs" href="{% url 'update-patient' p.id  %}"><span class="glyphicon glyphicon-edit"></span></a></td> {% endcomment %}
+        <td><a class="btn btn-primary btn-xs" href="{% url 'update-appointment' a.id  %}"><span class="glyphicon glyphicon-edit"></span></a></td>
         <td><a class="btn btn-danger btn-xs" href="{% url 'delete-appointment-smartcare' a.id  %}"><span class="glyphicon glyphicon-trash"></span></a></td>
       </tr>
       {% endfor %}

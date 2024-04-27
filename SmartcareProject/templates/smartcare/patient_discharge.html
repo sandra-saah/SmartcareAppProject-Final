@@ -163,24 +163,14 @@
       </td>
 
     </tr>
-
+    {% for p in patients %}
+    {% for a in appointments %}
+   {% if a.patientName in p.get_name %}
     <tr class="details">
-    
       <td>
         {{symptoms}}
       </td>
-       <td>
-    {% for a in appointments %}
-    {% for p in patient%}
-    {% if p.get_name in a.patientName %}
-      {{ a.description }}
-      
-      {% endif %}
-      {% endfor %}
-    {% endfor %}
-  </td>
     </tr>
-    
     <tr class="heading">
       <td>
         Item

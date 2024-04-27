@@ -21,7 +21,7 @@ connect to patient dashboard user: noah1 pw: noah123
 ## Test 3 : 
 - Dr First (doctor) login, and see daily surgery schedule, suppose that 1st patient needs to be rewarded to specialist, (discharged note eye specialist), admin removing second scheduled appointment for the day, admin checks turnover for the last month.
 
-## Test 4 : 
+## Test 4 : (DONE)
 Ms Lis Brown (patient ), cancels her appointment with mr first (doctor) and books new appointment with the nurse. admin list all NHS patients. admin removes Mr hesitant's from patient's list. attempt to access nurse dashbaord without login. 
 
 ## Test 5:
@@ -29,8 +29,11 @@ Ms Lis Brown (patient ), cancels her appointment with mr first (doctor) and book
 
 
 Needs to be done : 
-=> description in discharge patient 
-appointment update 
+
+- appointment update 
+- issue prescription (to be done)
+- change the bill fee (to be done)
+
 add date of birth for patient / doctor/ nurse (done S)
 book appointment with nurse  (ayan)
 get nurse invoice to pay (ayan)

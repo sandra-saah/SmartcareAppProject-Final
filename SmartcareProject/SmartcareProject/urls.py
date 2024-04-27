@@ -56,12 +56,14 @@ urlpatterns = [
 
     # admin appointment links 
     path('admin-appointment', views.admin_appointment_view,name='admin-appointment'),
+    path('update-appointment/<int:pk>', views.update_appointment_view,name='update-appointment'),
     path('admin-view-appointment', views.admin_view_appointment_view,name='admin-view-appointment'),
     path('admin-add-appointment', views.admin_add_appointment_view,name='admin-add-appointment'),
     path('admin-approve-appointment', views.admin_approve_appointment_view,name='admin-approve-appointment'),
     path('approve-appointment/<int:pk>', views.approve_appointment_view,name='approve-appointment'),
     path('reject-appointment/<int:pk>', views.reject_appointment_view,name='reject-appointment'),
     path('delete-appointment/<int:pk>/', views.admin_delete_appointment,name='delete-appointment-smartcare'),
+    path('update-appointment/<int:pk>', views.update_appointment_view,name='update-appointment'),
 
 
     # ADMIN INVOICES 
@@ -89,6 +91,7 @@ urlpatterns = [
     path('patient-book-appointment', views.patient_book_appointment_view, name='patient-book-appointment'),
     path('patient-view-appointment', views.patient_view_appointment_view, name='patient-view-appointment'),
     path('patient-discharge', views.patient_discharge_view, name='patient-discharge'),
+    path('delete-appointment/<int:pk>', views.patient_delete_appointment,name='patient-delete-appointment'),
 
     #Nurse Related
     path('admin-nurse', views.admin_nurse_view, name='admin-nurse'),
