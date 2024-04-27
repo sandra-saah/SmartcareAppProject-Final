@@ -14,7 +14,7 @@ class Doctor(models.Model):
     user=models.OneToOneField(User,on_delete=models.CASCADE)
     # email = models.EmailField(_(""), max_length=254)
     address = models.CharField(max_length=40)
-    date_of_birth = models.DateField(null=True)
+    # date_of_birth = models.DateField(null=True)
     mobile = models.CharField(max_length=20,null=True)
     department= models.CharField(max_length=50,choices=departments,default='Cardiologist')
     status=models.BooleanField(default=False)
