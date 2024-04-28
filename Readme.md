@@ -14,7 +14,7 @@ connect to patient dashboard user: noah1 pw: noah123
 - Django Super Admin dashboard should not be used as the required dashboard for admin users. The groups need to develop a dedicated admin dashboard for their systems.
 
 # Test Cases 
-## Test 1
+## Test 1 (DONE)
 - Register Mr Edmond hobbs, regiter 27 Clifton road london, N32AS, DOB: 20/12/1981, private client (patient). login and book appointment with nurse to change bandage, see nurse, and get invoice to pay, attempt to access admin dashbaord via url without login => (fail authorisation)
 
 ## Test 2 : 
