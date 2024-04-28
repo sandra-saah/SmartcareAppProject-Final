@@ -55,6 +55,7 @@ class PatientForm(forms.ModelForm):
 
 class AppointmentForm(forms.ModelForm):
     doctorId=forms.ModelChoiceField(queryset=models.Doctor.objects.all().filter(status=True),empty_label="Doctor Name and Department", to_field_name="user_id")
+    nurseId=forms.ModelChoiceField(queryset=models.Nurse.objects.all().filter(status=True),empty_label="Nurse Name and Department", to_field_name="user_id")
     patientId=forms.ModelChoiceField(queryset=models.Patient.objects.all().filter(status=True),empty_label="Patient Name and Symptoms", to_field_name="user_id")
     appointmentDate = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}),required=True) 
     appointmentTime = forms.TimeField(widget=forms.TimeInput(attrs={'type': 'time'}), required=True)
@@ -66,6 +67,7 @@ class AppointmentForm(forms.ModelForm):
 
 class PatientAppointmentForm(forms.ModelForm):
     doctorId=forms.ModelChoiceField(queryset=models.Doctor.objects.all().filter(status=True),empty_label="Doctor Name and Department", to_field_name="user_id")
+    nurseId=forms.ModelChoiceField(queryset=models.Nurse.objects.all().filter(status=True),empty_label="Nurse Name and Department", to_field_name="user_id")
     appointmentDate = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}),required=True) 
     appointmentTime = forms.TimeField(widget=forms.TimeInput(attrs={'type': 'time'}), required=True)
     class Meta:
