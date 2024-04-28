@@ -58,6 +58,7 @@ urlpatterns = [
     path('admin-appointment', views.admin_appointment_view,name='admin-appointment'),
     path('update-appointment/<int:pk>', views.update_appointment_view,name='update-appointment'),
     path('admin-view-appointment', views.admin_view_appointment_view,name='admin-view-appointment'),
+    path('update-appointment/<int:pk>', views.update_appointment_view,name='update-appointment'),
     path('admin-add-appointment', views.admin_add_appointment_view,name='admin-add-appointment'),
     path('admin-approve-appointment', views.admin_approve_appointment_view,name='admin-approve-appointment'),
     path('approve-appointment/<int:pk>', views.approve_appointment_view,name='approve-appointment'),
@@ -108,9 +109,8 @@ urlpatterns = [
     path('nurse-view-discharge-patient',views.nurse_view_discharge_patient_view, name='nurse-view-discharge-patient'),
     path('nurse-appointment', views.nurse_appointment_view,name='nurse-appointment'),
     path('nurse-view-appointment', views.nurse_view_appointment_view,name='nurse-view-appointment'),
-    # path('nurse-delete-appointment',views.nurse_delete_appointment_view,name='nurse-delete-appointment'),
-    # path('delete-appointment/<int:pk>', views.delete_appointment_view,name='delete-appointment'),
-
+    path('nurse-delete-appointment',views.nurse_delete_appointment_view,name='nurse-delete-appointment'),
+    path('fetch_names/', views.fetch_names, name='fetch_names'),
 
 ]
 
