@@ -34,13 +34,16 @@ Needs to be done :
 => description in discharge patient 
 * appointment update 
 
-* add date of birth for patient (Done) / doctor (Deon) / nurse (andrew)
-* book appointment with nurse  (ayan) (done)
+* add date of birth for patient (Done by S ) / doctor (Deon) / nurse (andrew)
+* Patient book appointment with nurse  (ayan) !
+* CSS needs to be done and fully finished (ayan)
 * get nurse invoice to pay (deon & andrew)
-* patient request a repeated prescription from doctor (deon & andrew)
-* doctor leave a comment for admin & patient (deon & andrew)
-* admin check turnover (deon & andrew)
+* patient request a repeated prescription from doctor (deon or/ andrew)
+* doctor leave a comment for admin & patient (deon or/ andrew)
+* admin check turnover (deon or/ andrew)
 * patient cancel appointment and book new one (S) (done)
-* doctor issue prescription (deon & andrew)
-* admin decide to change the fee for 10 min surgery applicable to all types of patients  (deon & andrew)
+* doctor issue prescription (deon or/ andrew)
+* admin decide to change the fee for 10 min surgery applicable to all types of patients  (deon or/ andrew)
+
+
 
