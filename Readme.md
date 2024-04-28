@@ -32,15 +32,15 @@ Ms Lis Brown (patient ), cancels her appointment with mr first (doctor) and book
 
 Needs to be done : 
 => description in discharge patient 
-- appointment update 
+* appointment update 
 
--add date of birth for patient (Done) / doctor (Deon) / nurse (andrew)
--book appointment with nurse  (ayan) (done)
--get nurse invoice to pay (deon & andrew)
-- patient request a repeated prescription from doctor (deon & andrew)
--doctor leave a comment for admin & patient (deon & andrew)
--admin check turnover (deon & andrew)
--patient cancel appointment and book new one (S) (done)
--doctor issue prescription (deon & andrew)
--admin decide to change the fee for 10 min surgery applicable to all types of patients  (deon & andrew)
+* add date of birth for patient (Done) / doctor (Deon) / nurse (andrew)
+* book appointment with nurse  (ayan) (done)
+* get nurse invoice to pay (deon & andrew)
+* patient request a repeated prescription from doctor (deon & andrew)
+* doctor leave a comment for admin & patient (deon & andrew)
+* admin check turnover (deon & andrew)
+* patient cancel appointment and book new one (S) (done)
+* doctor issue prescription (deon & andrew)
+* admin decide to change the fee for 10 min surgery applicable to all types of patients  (deon & andrew)
 
