@@ -33,6 +33,7 @@
           <th>Name</th>
           <th>Symptoms</th>
           <th>Contact</th>
+          <th>DOB</th>
           <th>Address</th>
           <th>Update</th>
           <th>Delete</th>
@@ -43,6 +44,7 @@
         <td> {{p.get_name}}</td>
         <td>{{p.symptoms}}</td>
         <td>{{p.mobile}}</td>
+        <td>{{p.date_of_birth}}</td>
         <td>{{p.address}}</td>
         <td><a class="btn btn-primary btn-xs" href="{% url 'update-patient' p.id  %}"><span class="glyphicon glyphicon-edit"></span></a></td>
         <td><a class="btn btn-danger btn-xs" href="{% url 'delete-patient-from-hospital' p.id  %}"><span class="glyphicon glyphicon-trash"></span></a></td>

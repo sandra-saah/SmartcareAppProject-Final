@@ -19,9 +19,11 @@ class DoctorUserForm(forms.ModelForm):
         'password': forms.PasswordInput()
         }
 class DoctorForm(forms.ModelForm):
+    
+    date_of_birth = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), required=True)
     class Meta:
         model=models.Doctor
-        fields=['address','mobile','department','status']
+        fields=['address','mobile','department','status','date_of_birth']
 
 class NurseUserForm(forms.ModelForm):
     class Meta:
@@ -47,9 +49,10 @@ class PatientForm(forms.ModelForm):
     #this will show dropdown __str__ method doctor model is shown on html so override it
     #to_field_name this will fetch corresponding value  user_id present in Doctor model and return it
     assignedDoctorId=forms.ModelChoiceField(queryset=models.Doctor.objects.all().filter(status=True),empty_label="Name and Department", to_field_name="user_id")
+    date_of_birth = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), required=True)
     class Meta:
         model=models.Patient
-        fields=['address','mobile','status','symptoms']
+        fields=['address','mobile','status','symptoms','date_of_birth']
 
 
 class AppointmentForm(forms.ModelForm):

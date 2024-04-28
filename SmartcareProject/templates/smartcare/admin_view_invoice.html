@@ -23,6 +23,7 @@
           <th>Release Date</th>
           <th>Assigned Doctor</th>
           <th>Invoice</th>
+          <th>Delete</th>
         </tr>
       </thead>
       {% for i in invoices %}
@@ -32,8 +33,9 @@
         <td>{{i.admitDate}}</td>
         <td>{{i.releaseDate}}</td>
         <td>{{i.assignedDoctorName}}</td>
-        <td><a class="btn btn-primary btn-xs" href="{% url 'download-pdf' i.id  %}"><span class="glyphicon glyphicon-credit-card"></span></a></td>
-      
+        <td><a class="btn btn-primary btn-xs" href="{% url 'download-pdf' i.patientId  %}"><span class="glyphicon glyphicon-credit-card"></span></a></td>
+        <td><a class="btn btn-danger btn-xs" href="{% url 'delete-invoice-smartcare' i.id  %}"><span class="glyphicon glyphicon-trash"></span></a></td>
+
       </tr>
       {% endfor %}
     </table>

@@ -1,4 +1,4 @@
-{% extends 'smartcare/patient_base.html' %}
+{% extends 'smartcare/admin_base.html' %}
 {% load widget_tweaks %}
 {% block content %}
 
@@ -47,14 +47,6 @@
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
 <br><br>
-{% if message %}
-<script>
-  var a = "{{message}}";
-  alert(a);
-</script>
-{% endif %}
-
-
 <!------ add appointment page  ---------->
 <form method="post">
   {% csrf_token %}
@@ -70,65 +62,25 @@
               {% render_field appointmentForm.description class="form-control" placeholder="Description" %}
             </div>
             <div class="form-group">
-              <label for="doctor_or_nurse">Choose Doctor or Nurse:</label>
-              <select id="doctor_or_nurse" name="doctor_or_nurse" class="form-control">
-                <option value="doctor">Doctor</option>
-                <option value="nurse">Nurse</option>
-              </select>
+              {% render_field appointmentForm.doctorId class="form-control" placeholder="Doctor" %}
             </div>
-            <div class="form-group" id="doctor_nurse_names" style="display:none;">
-              <label for="doctor_nurse_name">Select {{ selected_role }}:</label>
-              <select id="doctor_nurse_name" name="doctor_nurse_name" class="form-control">
-                <!-- Options will be dynamically populated here -->
-              </select>
+            <div class="form-group">
+              {% render_field appointmentForm.patientId class="form-control" placeholder="Patient" %}
             </div>
             <div class="form-group">
               {% render_field appointmentForm.appointmentDate class="form-control" placeholder="Appointment Date" %}
             </div>
             <div class="form-group">
               {% render_field appointmentForm.appointmentTime class="form-control" placeholder="Appointment Time" %}
-            </div>
           </div>
+          </div>
+
         </div>
         <button type="submit" class="btnSubmit">Book</button>
       </div>
     </div>
   </div>
 </form>
-
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    var doctorOrNurseSelect = document.getElementById("doctor_or_nurse");
-    var doctorNurseNamesDiv = document.getElementById("doctor_nurse_names");
-    var doctorNurseNamesSelect = document.getElementById("doctor_nurse_name");
-
-    doctorOrNurseSelect.addEventListener("change", function () {
-      var selectedRole = doctorOrNurseSelect.value;
-      if (selectedRole === "doctor" || selectedRole === "nurse") {
-        doctorNurseNamesDiv.style.display = "block";
-        fetchDoctorNurseNames(selectedRole);
-      } else {
-        doctorNurseNamesDiv.style.display = "none";
-      }
-    });
-
-    function fetchDoctorNurseNames(role) {
-      var url = "/fetch_names/?role=" + role;
-      fetch(url)
-        .then(response => response.json())
-        .then(data => {
-          doctorNurseNamesSelect.innerHTML = ''; // Clear previous options
-          data.forEach(function(item) {
-            var option = document.createElement('option');
-            option.value = item.id;
-            option.text = item.name;
-            doctorNurseNamesSelect.appendChild(option);
-          });
-        })
-        .catch(error => console.error('Error fetching names:', error));
-    }
-  });
-</script>
 
 
 {% endblock content %}

@@ -4,7 +4,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>A simple, clean, and responsive HTML invoice template</title>
+  <title>Patient Invoice </title>
 
   <style>
     .invoice-box {
@@ -120,7 +120,7 @@
         <table>
           <tr>
             <td class="title">
-              <h1>Hospital Management</h1>
+              <h1>Smartcare</h1>
             </td>
 
             <td>
@@ -146,7 +146,7 @@
 
             <td>
               Doctor Name :<br>
-              {{assignedDoctorName}}<br>
+              {{appointment.doctorName}}<br>
 
             </td>
           </tr>
@@ -163,7 +163,9 @@
       </td>
 
     </tr>
-
+    {% for p in patients %}
+    {% for a in appointments %}
+   {% if a.patientName in p.get_name %}
     <tr class="details">
       <td>
         {{symptoms}}

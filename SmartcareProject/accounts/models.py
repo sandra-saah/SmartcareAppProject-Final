@@ -14,6 +14,7 @@ class Doctor(models.Model):
     user=models.OneToOneField(User,on_delete=models.CASCADE)
     # email = models.EmailField(_(""), max_length=254)
     address = models.CharField(max_length=40)
+    date_of_birth = models.DateField(null=True)
     mobile = models.CharField(max_length=20,null=True)
     department= models.CharField(max_length=50,choices=departments,default='Cardiologist')
     status=models.BooleanField(default=False)
@@ -45,9 +46,11 @@ class Nurse(models.Model):
 class Patient(models.Model):
     user=models.OneToOneField(User,on_delete=models.CASCADE)
     address = models.CharField(max_length=40)
+    date_of_birth = models.DateField(null=True)
     mobile = models.CharField(max_length=20,null=False)
     symptoms = models.CharField(max_length=100,null=False)
     assignedDoctorId = models.PositiveIntegerField(null=True)
+    assignedNurseId = models.PositiveIntegerField(null=True)
     admitDate=models.DateField(auto_now=True)
     status=models.BooleanField(default=False)
     @property
@@ -63,6 +66,7 @@ class Appointment(models.Model):
     patientId=models.PositiveIntegerField(null=True)
     nurseId=models.PositiveIntegerField(null=True)
     doctorId=models.PositiveIntegerField(null=True)
+    nurseId=models.PositiveIntegerField(null=True)
     patientName=models.CharField(max_length=40,null=True)
     doctorName=models.CharField(max_length=40,null=True)
     nurseName=models.CharField(max_length=40,null=True)
@@ -79,11 +83,10 @@ class PatientDischargeDetails(models.Model):
     address = models.CharField(max_length=40)
     mobile = models.CharField(max_length=20,null=True)
     symptoms = models.CharField(max_length=100,null=True)
-
+    description=models.TextField(max_length=500,null=True,default='')
     admitDate=models.DateField(null=False)
     releaseDate=models.DateField(null=False)
     daySpent=models.PositiveIntegerField(null=False)
-
 
     medicineCost=models.PositiveIntegerField(null=False)
     doctorFee=models.PositiveIntegerField(null=False)
