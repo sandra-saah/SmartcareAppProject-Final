@@ -19,6 +19,7 @@ from django.urls import path
 from django.contrib.auth.views import LoginView,LogoutView
 
 
+
 urlpatterns = [
     path("admin/", admin.site.urls),
     path('',views.home_view,name=''),
@@ -92,6 +93,14 @@ urlpatterns = [
     path('patient-view-appointment', views.patient_view_appointment_view, name='patient-view-appointment'),
     path('patient-discharge', views.patient_discharge_view, name='patient-discharge'),
     path('delete-appointment/<int:pk>', views.patient_delete_appointment,name='patient-delete-appointment'),
+
+    path('request_prescription/', views.patient_request_prescription, name='request_prescription'),
+    #path('request_prescription/', views.request_prescription, name='request_prescription'),
+
+
+    # prescriptions
+    path('prescription_list/', views.prescription_list, name='prescription_list'),
+
 
     #Nurse Related
     path('admin-nurse', views.admin_nurse_view, name='admin-nurse'),

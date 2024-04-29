@@ -1,0 +1,32 @@
+{% extends 'smartcare/patient_base.html' %}
+{% load static %}
+
+<h2>Prescription List</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Patient</th>
+            <th>Medication</th>
+            <th>Dosage</th>
+            <th>Instructions</th>
+            <th>Issued At</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for prescription in prescriptions %}
+        <tr>
+            <td>{{ prescription.patient.full_name }}</td>
+            <td>{{ prescription.medication }}</td>
+            <td>{{ prescription.dosage }}</td>
+            <td>{{ prescription.instructions }}</td>
+            <td>{{ prescription.issued_at }}</td>
+            <td>
+                <!-- Example of an action to reorder a prescription -->
+                <a href="{% url 'request_prescription' patient.id %}">Reorder</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

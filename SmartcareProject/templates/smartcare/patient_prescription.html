@@ -1,0 +1,21 @@
+{% extends 'smartcare/patient_base.html' %}
+{% load static %}
+
+{% block content%}
+<!-- <h2>Request Prescription for {{ request.user.first_name}}</h2> -->
+
+<form method="post">
+    {% csrf_token %}
+    {{form.as_p}}
+    <button type="submit">Reorder Prescription</button>
+</form>
+
+{% if messages %}
+<div>
+    {% for message in messages %}
+    <p class="{{ message.tags }}">{{ message }}</p> 
+    {% endfor %}
+</div>
+{% endif %}
+
+{% endblock %}

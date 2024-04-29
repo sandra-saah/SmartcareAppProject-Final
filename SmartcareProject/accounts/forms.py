@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from . import models
-
+from .models import Prescription
 #for admin signup
 class AdminSigupForm(forms.ModelForm):
     class Meta:
@@ -23,7 +23,7 @@ class DoctorForm(forms.ModelForm):
     date_of_birth = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), required=True)
     class Meta:
         model=models.Doctor
-        fields=['address','mobile','department','status']
+        fields=['address','mobile','department','status','date_of_birth']
 
 class NurseUserForm(forms.ModelForm):
     class Meta:
@@ -33,9 +33,10 @@ class NurseUserForm(forms.ModelForm):
         'password': forms.PasswordInput()
         }
 class NurseForm(forms.ModelForm):
+    date_of_birth = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), required=True)
     class Meta:
         model=models.Nurse
-        fields=['address','mobile','department','status']
+        fields=['address','mobile','department','status', 'date_of_birth']
         
 class PatientUserForm(forms.ModelForm):
     class Meta:
@@ -73,5 +74,11 @@ class PatientAppointmentForm(forms.ModelForm):
     class Meta:
         model=models.Appointment
         fields=['appointmentDate','appointmentTime','description','status']
+
+
+class PrescriptionForm(forms.ModelForm):
+    class meta:
+        model = Prescription
+        fields = ['medication', 'dosage', 'description']
 
 

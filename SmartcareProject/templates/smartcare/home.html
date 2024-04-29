@@ -25,9 +25,86 @@
 </div>
 
 <br><br><br><br>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Maps Homepage</title>
+
+    <!-- map uses leaflet and OpenStreetMaps services  -->
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <!-- Include Leaflet JavaScript -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <style>
+        #map {
+            height: 400px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Search input and button -->
+    <input type="text" id="locationInput" placeholder="Enter location">
+    <button id="searchButton">Search</button>
+
+    <!-- Map container -->
+    <div id="map"></div>
+
+    <script>
+        // setting the default lat and longitute to Bristol
+        var map = L.map('map').setView([51.455208, -2.591064], 13);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        var searchMarker; // For storing the search marker
+
+        function geocodeLocation(location) {
+            const apiUrl = `https://nominatim.openstreetmap.org/search?format=json&q=${location}`;
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.length > 0) {
+                        const lat = data[0].lat;
+                        const lon = data[0].lon;
+
+                        // Remove the existing search marker if it exists
+                        if (searchMarker) {
+                            map.removeLayer(searchMarker);
+                        }
+
+                        // Create a new marker for the searched location
+                        searchMarker = L.marker([lat, lon])
+                            .bindPopup(`You searched for: ${location}`)
+                            .addTo(map);
+
+                        // Center the map on the found location
+                        map.setView([lat, lon], 13);
+                    } else {
+                        alert("Location not found");
+                    }
+                })
+                .catch(error => console.error("Error fetching geocoding data:", error));
+        }
+
+        document.getElementById("searchButton").onclick = function() {
+            const location = document.getElementById("locationInput").value;
+            geocodeLocation(location);
+        };
+    </script>
+</body>
+</html>
+
+
+
+
+
 
 {% comment %} {% include "smartcare/admin_doctor_patient_card.html" %} {% endcomment %}
 <br><br><br>
+
+
 
 
 {% endblock content %}
