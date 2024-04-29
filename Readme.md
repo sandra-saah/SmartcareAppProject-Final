@@ -46,5 +46,14 @@ Needs to be done :
 * doctor issue prescription (deon or/ andrew)
 * admin decide to change the fee for 10 min surgery applicable to all types of patients  (deon or/ andrew)
 
-
-
+CSS to change (ayan): 
+ 
+1. background colour : navy-blue, (in all website)
+2. h1 : make it 26px, h2: 16 px. 
+3. buttons : green (login), red (sign in)
+4. Book now button in home page h1, center in white 
+5. align the tables in the in all dashbaords (admin/doctor/nurse)
+6. all border-radius : 15px
+7. home page background picture (choose a picture of a hospital care)
+8. nav bar (white) and make sure the navbar is the same everywhere
+9. users card in the home page (sandra)
