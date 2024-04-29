@@ -7,7 +7,52 @@
 
 
 <head>
+  <style>
+    .card {
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+      max-width: 300px;
+      margin: auto;
+      text-align: center;
+      font-family: arial;
+    }
 
+    .title {
+      color: grey;
+      font-size: 18px;
+    }
+
+    button {
+      border: none;
+      outline: 0;
+      display: inline-block;
+      padding: 8px;
+      color: white;
+      background-color: #000;
+      text-align: center;
+      cursor: pointer;
+      width: 100%;
+      font-size: 18px;
+    }
+
+    button:hover,
+    a:hover {
+      opacity: 0.7;
+    }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: auto auto auto;
+      padding: 10px;
+    }
+
+    a:link {
+      text-decoration: none;
+    }
+
+    a {
+      color: white;
+    }
+  </style>
 </head>
 <br>
 <br>
@@ -26,7 +71,45 @@
 
 <br><br><br><br>
 
-{% comment %} {% include "smartcare/admin_doctor_patient_card.html" %} {% endcomment %}
+
+<div class="grid-container">
+  <div class="grid-item">
+    <div class="card">
+      <img src="{% static "images/admin.png" %}" alt="admin" style="width:100%">
+      <p class="title">ADMIN</p>
+      <p><button><a href="/adminclick">View</a></button></p>
+    </div>
+
+  </div>
+
+
+  <div class="grid-item">
+    <div class="card">
+      <img src="{% static "images/doctor.png" %}" alt="doctor" style="width:100%">
+      <p class="title">DOCTOR</p>
+      <p><button><a href="/doctorclick">View</a></button></p>
+    </div>
+  </div>
+
+
+  <div class="grid-item">
+    <div class="card">
+      <img src="{% static "images/patient.jpg" %}" alt="patient" style="width:100%">
+      <p class="title">PATIENT</p>
+      <p><button><a href="/patientclick">View</a></button></p>
+    </div>
+  </div>
+
+  <div class="grid-item">
+    <div class="card">
+      <img src="{% static "images/nurse.png" %}" alt="nurse" style="width:100%">
+      <p class="title">NURSE</p>
+      <p><button><a href="/nurseclick">View</a></button></p>
+    </div>
+  </div>
+
+</div>
+
 <br><br><br>
 
 
