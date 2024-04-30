@@ -17,17 +17,17 @@ connect to patient dashboard user: noah1 pw: noah123
 ## Test 1 (DONE)
 - Register Mr Edmond hobbs, regiter 27 Clifton road london, N32AS, DOB: 20/12/1981, private client (patient). login and book appointment with nurse to change bandage, see nurse, and get invoice to pay, attempt to access admin dashbaord via url without login => (fail authorisation)
 
-## Test 2 : 
+## Test 2 : (DONE)
 - register Mr Mark healer as new doctor, with address and DOB, approve from admin, rob smith (created patient)request repeated prescription. attempt to access admin dashbaord via url (not authorised).
 
-## Test 3 : 
+## Test 3 : (DONE)
 - Dr First (doctor) login, and see daily surgery schedule, suppose that 1st patient needs to be rewarded to specialist, (discharged note eye specialist), admin removing second scheduled appointment for the day, admin checks turnover for the last month.
 
 
 ## Test 4 : (DONE)
 Ms Lis Brown (patient ), cancels her appointment with mr first (doctor) and books new appointment with the nurse. admin list all NHS patients. admin removes Mr hesitant's from patient's list. attempt to access nurse dashbaord without login. 
 
-## Test 5:
+## Test 5: (DONE)
 - let an existing patient book appoitnemnt with dr First (doctor) on friday afternoon. dr first hold surgery with patient and issue prescription and invoice. let patient pay the bill. admin decides to change the fee for 10min surgery applicable to all patients.
 
 
