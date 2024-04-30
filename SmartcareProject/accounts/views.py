@@ -696,13 +696,33 @@ def download_pdf_view(request,pk):
 #---------------------------------------------------------------------------------
 #------------------------ INVOICE VIEWS  ------------------------------
 #---------------------------------------------------------------------------------
-
 @login_required(login_url='adminlogin')
 @user_passes_test(is_admin)
 def admin_invoice_view(request):
-    invoices=models.PatientDischargeDetails.objects.all().filter()
-    return render(request,'smartcare/admin_view_invoice.html',{'invoices':invoices})
+    date_range = request.GET.get('daterange', None)
+    invoices = PatientDischargeDetails.objects.all()  # all invoice created
+    
+    if date_range:
+        try:
+            # Split the date range into start and end dates
+            start_date_str, end_date_str = date_range.split(' - ')
+            start_date = datetime.strptime(start_date_str, '%d/%m/%Y')
+            end_date = datetime.strptime(end_date_str, '%d/%m/%Y')
 
+            # Filter invoices based on the date
+            invoices = invoices.filter(
+                admitDate__gte=start_date,
+                releaseDate__lte=end_date
+            )
+        except ValueError:
+            # Handle invalid date format
+            messages.error(request, "Invalid date range format. Please use DD/MM/YYYY.")
+
+    context = {
+        'invoices': invoices,
+    }
+    
+    return render(request, 'smartcare/admin_view_invoice.html', context)
 
 @login_required(login_url='adminlogin')
 @user_passes_test(is_admin)
@@ -1031,54 +1051,26 @@ def delete_appointment_view(request,pk):
 
 
 
+@login_required(login_url='patientlogin')
+@user_passes_test(is_patient)
+def discharged_patient(request):
+    patient = Patient.objects.get(user=request.user)
+    discharge_details = PatientDischargeDetails.objects.filter(patientId=patient.id).order_by('-id')[:1]
 
+    context = {
+        'discharge_details': discharge_details,
+    }
 
-#prescription views
-# @login_required(login_url='patientlogin')
-# @user_passes_test(is_patient)
-# def request_prescription(request, id=pk):
-#     # Fetch the patient with current login detailss
-
-#     # patient = get_object_or_404(Patient, user_id=request.user.id)
-
-#     # checks the whether the patient has been discharged if not return to patient dashboard
-#     if hasattr(pk,'is_dischared') and not is_patient_discharged(patient.id):
-#         messages.warning(request, "You cannot reorder a prescription until approved by doctor")
-#         return redirect('smartcare/patient_dashboard')
+    return render(request, 'smartcare/patient_discharge.html', context)
     
-#     if request.method == 'POST':
-#         form = PrescriptionForm(request.POST)
-#         if form.is_valid():
-#             prescription = form.save(commit=False)
-#             prescription.patient =
-#             prescription.issued_by = request.user
-#             prescription.save()
 
-
-#             # successful reorder only when discharged
-#             messages.success(request, "Prescription reordered successfully")
-#             return redirect('smartcare/prescription_list.html') 
-
-        # else:
-        #     form = PrescriptionForm
-
-        # return render(
-        #     request, 'smartcare/patient_prescription.html', {'form':form, 'patient':patient}
-        # )
-        
 
 @login_required(login_url='patientlogin')
 @user_passes_test(is_patient)
-def patient_request_prescription(request):
-    
-    patient = Patient.objects.get(user_id=request.user.id)
+def patient_request_prescription(request, pk):
+    # Retrieve the patient or return 404 if not found
+    patient = get_object_or_404(Patient, id=pk)
 
-    # Check if the patient has any discharge record
-    if not PatientDischargeDetails.objects.filter(patientId=patient.id).exists():
-        messages.warning(request, "You cannot reorder a prescription until approved by a doctor.")
-        return redirect('smartcare/appointment_dashboard.html')
-
-    # Validate the form and handle POST requests
     if request.method == 'POST':
         form = PrescriptionForm(request.POST)
         if form.is_valid():
@@ -1090,24 +1082,26 @@ def patient_request_prescription(request):
 
             # Success message and redirect
             messages.success(request, "Prescription reordered successfully.")
-            return HttpResponseRedirect('prescription_list.html')
+            return HttpResponseRedirect('prescription_list')  # Or another appropriate view
 
         else:
+            # If form is invalid, send an error message
             messages.error(request, "There was an error with your form. Please correct the errors.")
 
     else:
         form = PrescriptionForm()
 
-    # Step 4: Retrieve prescription history for the logged-in patient
+    # Retrieve prescription history for the specified patient
     prescription_history = Prescription.objects.filter(patient=patient)
 
+    # Context for the template
     context = {
         'PrescriptionForm': form,
         'patient': patient,
         'prescription_history': prescription_history,
     }
 
-    return render(request, 'patient_prescription.html', context)
+    return render(request, 'smartcare/request_prescription.html', context)
 
 
 

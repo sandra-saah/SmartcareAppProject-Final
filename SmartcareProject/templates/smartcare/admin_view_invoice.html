@@ -7,14 +7,44 @@
   <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
   <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 
+  <!-- date range scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" rel="stylesheet">
+
 </head>
+<div class="container">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h4>Search Invoices by Date</h4>
+    </div>
+    <div class="panel-body">
+      <!-- Form with a date range picker -->
+      <form action="" method="GET">
+        <!-- Retrieve the selected date range from the GET parameter -->
+        {% with daterange=request.GET.daterange %}
+        <input type="text" name="daterange" class="form-control"
+               value="{{ daterange }}" 
+               placeholder="Select a date range" />  <!-- Default placeholder -->
+        {% endwith %}
+
+        <!-- Search button -->
+        <button type="submit" class="btn btn-primary">Search</button>
+      </form>
+    </div>
+  </div>
+</div>
+
 
 <div class="container">
   <div class="panel panel-primary">
     <div class="panel-heading">
       <h6 class="panel-title">Doctors</h6>
     </div>
+  
     <table class="table table-hover" id="dev-table">
+
+      
       <thead>
         <tr>
 
@@ -42,5 +72,37 @@
   </div>
 </div>
 
-
+<!-- add the date functionality -->
+<!-- <script>
+  $(function() {
+    $('input[name="daterange"]').daterangepicker({
+      locale: {
+        format: 'DD/MM/YYYY',  // Ensure correct date format
+      },
+      autoUpdateInput: false,  // Keep input empty until a date is selected
+      opens: 'left',  // Direction the calendar opens
+    }, function(start, end) {
+      // When a new date range is selected, update the input field
+      $('input[name="daterange"]').val(start.format('DD/MM/YYYY') + ' - ' + end.format('DD/MM/YYYY'));
+    });
+  });
+  </script>
+   -->
+   <script>
+    $(function() {
+      $('input[name="daterange"]').daterangepicker({
+        locale: {
+          format: 'DD/MM/YYYY', 
+        },
+        autoUpdateInput: true,  // Automatically update the input when a date is selected
+        opens: 'left', 
+      }, function(start, end) {
+        // Update the input field with the selected date range
+        $('input[name="daterange"]').val(start.format('DD/MM/YYYY') + ' - ' + end.format('DD/MM/YYYY'));
+      });
+    });
+    </script>
+    
+  
+  
 {% endblock content %}

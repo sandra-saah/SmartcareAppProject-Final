@@ -94,13 +94,11 @@ urlpatterns = [
     path('patient-discharge', views.patient_discharge_view, name='patient-discharge'),
     path('delete-appointment/<int:pk>', views.patient_delete_appointment,name='patient-delete-appointment'),
 
-    path('request_prescription/', views.patient_request_prescription, name='request_prescription'),
-    #path('request_prescription/', views.request_prescription, name='request_prescription'),
-
-
-    # prescriptions
+    
+   
+    # Prescriptions Related
     path('prescription_list/', views.prescription_list, name='prescription_list'),
-
+    path('request-prescription/<int:patient_id/', views.patient_request_prescription, name='request-prescription'),
 
     #Nurse Related
     path('admin-nurse', views.admin_nurse_view, name='admin-nurse'),
