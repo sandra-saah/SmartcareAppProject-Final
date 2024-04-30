@@ -718,8 +718,30 @@ def download_pdf_view(request,pk):
 @login_required(login_url='adminlogin')
 @user_passes_test(is_admin)
 def admin_invoice_view(request):
-    invoices=models.PatientDischargeDetails.objects.all().filter()
-    return render(request,'smartcare/admin_view_invoice.html',{'invoices':invoices})
+    date_range = request.GET.get('daterange', None)
+    invoices = models.PatientDischargeDetails.objects.all()  # all invoice created
+
+    if date_range:
+        try:
+            # Split the date range into start and end dates
+            start_date_str, end_date_str = date_range.split(' - ')
+            start_date = datetime.strptime(start_date_str, '%d/%m/%Y')
+            end_date = datetime.strptime(end_date_str, '%d/%m/%Y')
+
+            # Filter invoices based on the date
+            invoices = invoices.filter(
+                admitDate__gte=start_date,
+                releaseDate__lte=end_date
+            )
+        except ValueError:
+            # Handle invalid date format
+            messages.error(request, "Invalid date range format. Please use DD/MM/YYYY.")
+
+    context = {
+        'invoices': invoices,
+    }
+
+    return render(request, 'smartcare/admin_view_invoice.html', context)
 
 
 @login_required(login_url='adminlogin')
