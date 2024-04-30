@@ -41,7 +41,6 @@ Needs to be done :
 
 
 * doctor leave a note (prescription) for admin & patient (andrew)
-* admin check turnover (deon => DONE )
 
 
 CSS to change (ayan): 
