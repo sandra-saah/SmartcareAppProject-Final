@@ -1,4 +1,6 @@
 Create SmartCare app for final Desd Project
+Updated this 
+# all users register as : firstname1 & password : firstname123
 
 connect to django admin : create super user admin 
 connect to admin dashbaord usr: admin1 pw: admin123
@@ -29,19 +31,19 @@ Ms Lis Brown (patient ), cancels her appointment with mr first (doctor) and book
 
 
 Needs to be done : 
+=> description in discharge patient 
+* appointment update 
 
-- appointment update 
-- issue prescription (to be done)
-- change the bill fee (to be done)
+* add date of birth for patient (Done by S ) / doctor (Deon) / nurse (andrew)
+* Patient book appointment with nurse  (ayan) !
+* CSS needs to be done and fully finished (ayan)
+* get nurse invoice to pay (deon & andrew)
+* patient request a repeated prescription from doctor (deon or/ andrew)
+* doctor leave a comment for admin & patient (deon or/ andrew)
+* admin check turnover (deon or/ andrew)
+* patient cancel appointment and book new one (S) (done)
+* doctor issue prescription (deon or/ andrew)
+* admin decide to change the fee for 10 min surgery applicable to all types of patients  (deon or/ andrew)
 
-add date of birth for patient / doctor/ nurse (done S)
-book appointment with nurse  (ayan)
-get nurse invoice to pay (ayan)
-request a repeated prescription from doctor (S)
-description from admin to doctor to patient (comment)
-admin check turnover 
-patient cancel appointment and book new one (S)
-doctor book surgery with patient, issue prescription, then discharge patient  
-patient pay the bill 
-admin decide to change the fee for 10 min surgery applicable to all types of patients 
+
 

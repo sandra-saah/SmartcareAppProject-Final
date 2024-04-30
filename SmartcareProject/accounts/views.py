@@ -4,6 +4,8 @@ from . import forms,models
 from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required,user_passes_test
 from datetime import datetime,timedelta,date
+from django.http import JsonResponse
+from .models import Doctor, Nurse
 
 
 # Create your views here.
@@ -112,6 +114,21 @@ def afterlogin_view(request):
             return render(request,'smartcare/patient_wait_for_approval.html')
 
 
+
+def fetch_names(request):
+    role = request.GET.get('role')
+    if role == 'doctor':
+        doctors = Doctor.objects.all().values('id', 'user__first_name', 'user__last_name')
+        data = [{'id': doctor['id'], 'name': f"{doctor['user__first_name']} {doctor['user__last_name']}"} for doctor in doctors]
+    elif role == 'nurse':
+        nurses = Nurse.objects.all().values('id', 'user__first_name', 'user__last_name')
+        data = [{'id': nurse['id'], 'name': f"{nurse['user__first_name']} {nurse['user__last_name']}"} for nurse in nurses]
+    else:
+        data = []
+    return JsonResponse(data, safe=False)
+
+
+
 #---------------------------------------------------------------------------------
 #------------------------ ADMIN VIEWS  ------------------------------
 #---------------------------------------------------------------------------------
@@ -126,6 +143,9 @@ def admin_dashboard_view(request):
     doctorcount=models.Doctor.objects.all().filter(status=True).count()
     pendingdoctorcount=models.Doctor.objects.all().filter(status=False).count()
 
+    nursecount=models.Nurse.objects.all().filter(status=True).count()
+    pendingnursecount=models.Nurse.objects.all().filter(status=False).count()
+
     patientcount=models.Patient.objects.all().filter(status=True).count()
     pendingpatientcount=models.Patient.objects.all().filter(status=False).count()
 
@@ -136,6 +156,8 @@ def admin_dashboard_view(request):
     'patients':patients,
     'nurses':nurses,
     'doctorcount':doctorcount,
+    'nursecount':nursecount,
+    'pendingnursecount':pendingnursecount,
     'pendingdoctorcount':pendingdoctorcount,
     'patientcount':patientcount,
     'pendingpatientcount':pendingpatientcount,
@@ -277,8 +299,10 @@ def admin_add_appointment_view(request):
         if appointmentForm.is_valid():
             appointment=appointmentForm.save(commit=False)
             appointment.doctorId=request.POST.get('doctorId')
+            appointment.nurseId=request.POST.get('nurseId')
             appointment.patientId=request.POST.get('patientId')
             appointment.doctorName=models.User.objects.get(id=request.POST.get('doctorId')).first_name
+            appointment.nurseName=models.User.objects.get(id=request.POST.get('nurseId')).first_name
             appointment.patientName=models.User.objects.get(id=request.POST.get('patientId')).first_name
             appointment.status=True
             appointment.save()
@@ -318,13 +342,12 @@ def admin_delete_appointment(request,pk):
     appointment.delete()
     return redirect('admin-view-appointment')
 
-
 @login_required(login_url='adminlogin')
 @user_passes_test(is_admin)
 def update_appointment_view(request,pk):
     appointment=models.Appointment.objects.get(id=pk)
     appointmentForm=forms.AppointmentForm()
-    
+
     mydict={'appointmentForm':appointmentForm,}
     if request.method=='POST':
         appointmentForm=forms.AppointmentForm(request.POST)
@@ -338,7 +361,6 @@ def update_appointment_view(request,pk):
             appointment.save()
             return redirect('admin-view-appointment')
     return render(request,'smartcare/admin_update_appointment.html',context=mydict)
-
 
 #---------------------------------------------------------------------------------
 #------------------------ DOCTOR RELATED VIEWS START ------------------------------
@@ -651,7 +673,6 @@ def discharge_patient_view(request,pk):
     return render(request,'smartcare/patient_generate_bill.html',context=patientDict)
 
 
-
 #--------------for discharge patient bill (pdf) download and printing
 
 import io
@@ -755,8 +776,10 @@ def patient_book_appointment_view(request):
         if appointmentForm.is_valid():
             appointment=appointmentForm.save(commit=False)
             appointment.doctorId=request.POST.get('doctorId')
+            appointment.nurseId=request.POST.get('nurseId')
             appointment.patientId=request.user.id #----user can choose any patient but only their info will be stored
             appointment.doctorName=models.User.objects.get(id=request.POST.get('doctorId')).first_name
+            appointment.nurseName=models.User.objects.get(id=request.POST.get('nurseId')).first_name
             appointment.patientName=request.user.first_name #----user can choose any patient but only their info will be stored
             appointment.status=False
             appointment.save()
@@ -804,12 +827,14 @@ def patient_discharge_view(request):
     return render(request,'smartcare/patient_discharge.html',context=patientDict)
 
 
+
 @login_required(login_url='patientlogin')
 @user_passes_test(is_patient)
 def patient_delete_appointment(request,pk):
     appointment=models.Appointment.objects.get(id=pk)
     appointment.delete()
     return redirect('patient-view-appointment')
+
 
 
 #---------------------------------------------------------------------------------
@@ -930,23 +955,23 @@ def reject_nurse_view(request,pk):
 @user_passes_test(is_nurse)
 def nurse_dashboard_view(request):
     #for three cards
-    # patientcount=models.Patient.objects.all().filter(status=True,assignedNurseId=request.user.id).count()
-    # appointmentcount=models.Appointment.objects.all().filter(status=True,nurseId=request.user.id).count()
-    # patientdischarged=models.PatientDischargeDetails.objects.all().distinct().filter(assignedNurseName=request.user.first_name).count()
-
+    patientcount=models.Patient.objects.all().filter(status=True,assignedNurseId=request.user.id).count()
+    appointmentcount=models.Appointment.objects.all().filter(status=True,nurseId=request.user.id).count()
+    patientdischarged=models.PatientDischargeDetails.objects.all().distinct().filter(assignedNurseName=request.user.first_name).count()
+   
     # for  table in nurse dashboard
-    # appointments=models.Appointment.objects.all().filter(status=True,nurseId=request.user.id).order_by('-id')
-    # patientid=[]
-    # for a in appointments:
-    #     patientid.append(a.patientId)
-    # patients=models.Patient.objects.all().filter(status=True,user_id__in=patientid).order_by('-id')
-    # appointments=zip(appointments,patients)
+    appointments=models.Appointment.objects.all().filter(status=True,nurseId=request.user.id).order_by('-id')
+    patientid=[]
+    for a in appointments:
+        patientid.append(a.patientId)
+    patients=models.Patient.objects.all().filter(status=True,user_id__in=patientid).order_by('-id')
+    appointments=zip(appointments,patients)
     mydict={
-    # 'patientcount':patientcount,
-    # 'appointmentcount':appointmentcount,
-    # 'patientdischarged':patientdischarged,
-    # 'appointments':appointments,
-    'nurse':models.Nurse.objects.get(user_id=request.user.id), #for profile picture of nurse in sidebar
+    'patientcount':patientcount,
+    'appointmentcount':appointmentcount,
+    'patientdischarged':patientdischarged,
+    'appointments':appointments,
+    'nurse':models.Nurse.objects.get(user_id=request.user.id),
     }
     return render(request,'smartcare/nurse_dashboard.html',context=mydict)
 
@@ -962,17 +987,17 @@ def nurse_patient_view(request):
 @login_required(login_url='nurselogin')
 @user_passes_test(is_nurse)
 def nurse_view_patient_view(request):
-    # patients=models.Patient.objects.all().filter(status=True,assignedNurseId=request.user.id)
-    # nurse=models.Nurse.objects.get(user_id=request.user.id) #for profile picture of nurse in sidebar
+    patients=models.Patient.objects.all().filter(status=True,assignedNurseId=request.user.id)
+    nurse=models.Nurse.objects.get(user_id=request.user.id) 
     return render(request,'smartcare/nurse_view_patient.html',
-                #   {'patients':patients,'nurse':nurse} 
+                  {'patients':patients,'nurse':nurse} 
                   )
 
 @login_required(login_url='nurselogin')
 @user_passes_test(is_nurse)
 def nurse_view_discharge_patient_view(request):
     dischargedpatients=models.PatientDischargeDetails.objects.all().distinct().filter(assignedNurseName=request.user.first_name)
-    nurse=models.Nurse.objects.get(user_id=request.user.id) #for profile picture of nurse in sidebar
+    nurse=models.Nurse.objects.get(user_id=request.user.id)
     return render(request,'smartcare/nurse_view_discharge_patient.html'
                   ,{'dischargedpatients':dischargedpatients,'nurse':nurse} 
                   )
@@ -980,51 +1005,51 @@ def nurse_view_discharge_patient_view(request):
 @login_required(login_url='nurselogin')
 @user_passes_test(is_nurse)
 def nurse_appointment_view(request):
-    nurse=models.Nurse.objects.get(user_id=request.user.id) #for profile picture of nurse in sidebar
+    nurse=models.Nurse.objects.get(user_id=request.user.id)
     return render(request,'smartcare/nurse_appointment.html',{'nurse':nurse})
 
 @login_required(login_url='nurselogin')
 @user_passes_test(is_nurse)
 def nurse_view_appointment_view(request):
-    nurse=models.Nurse.objects.get(user_id=request.user.id) #for profile picture of nurse in sidebar
-    # appointments=models.Appointment.objects.all().filter(status=True,nurseId=request.user.id) 
-    # patientid=[]
-    # for a in appointments:
-    #     patientid.append(a.patientId)
-    # patients=models.Patient.objects.all().filter(status=True,user_id__in=patientid) 
-    # appointments=zip(appointments,patients) 
+    nurse=models.Nurse.objects.get(user_id=request.user.id) 
+    appointments=models.Appointment.objects.all().filter(status=True,nurseId=request.user.id) 
+    patientid=[]
+    for a in appointments:
+        patientid.append(a.patientId)
+        patients=models.Patient.objects.all().filter(status=True,user_id__in=patientid) 
+        appointments=zip(appointments,patients) 
     return render(request,'smartcare/nurse_view_appointment.html',
-                #   {'appointments':appointments,'nurse':nurse} 
+                  {'appointments':appointments,'nurse':nurse} 
                   )
 
 @login_required(login_url='nurselogin')
 @user_passes_test(is_nurse)
 def nurse_delete_appointment_view(request):
     nurse=models.Nurse.objects.get(user_id=request.user.id) #for profile picture of nurse in sidebar
-    # appointments=models.Appointment.objects.all().filter(status=True,nurseId=request.user.id)
-    # patientid=[]
-    # for a in appointments:                   
-    #     patientid.append(a.patientId)
-    # patients=models.Patient.objects.all().filter(status=True,user_id__in=patientid)
-    # appointments=zip(appointments,patients)
+    appointments=models.Appointment.objects.all().filter(status=True,nurseId=request.user.id)
+    patientid=[]
+    for a in appointments:                   
+        patientid.append(a.patientId)
+    patients=models.Patient.objects.all().filter(status=True,user_id__in=patientid)
+    appointments=zip(appointments,patients)
     return render(request,'smartcare/nurse_delete_appointment.html',
-                #   {'appointments':appointments,'nurse':nurse}
+                  {'appointments':appointments,'nurse':nurse}
                   )
 
 @login_required(login_url='nurselogin')
 @user_passes_test(is_nurse)
 def delete_appointment_view(request,pk):
-    # appointment=models.Appointment.objects.get(id=pk)
-    # appointment.delete()
-    # nurse=models.Nurse.objects.get(user_id=request.user.id) #for profile picture of nurse in sidebar
-    # # appointments=models.Appointment.objects.all().filter(status=True,nurseId=request.user.id)
-    # patientid=[]
-    # for a in appointments:                         
-    #     patientid.append(a.patientId)
-    # patients=models.Patient.objects.all().filter(status=True,user_id__in=patientid)
-    # appointments=zip(appointments,patients)
+    appointment=models.Appointment.objects.get(id=pk)
+    appointment.delete()
+    nurse=models.Nurse.objects.get(user_id=request.user.id) 
+    appointments=models.Appointment.objects.all().filter(status=True,nurseId=request.user.id)
+    patientid=[]
+    for a in appointments:                         
+        patientid.append(a.patientId)
+        patients=models.Patient.objects.all().filter(status=True,user_id__in=patientid)
+        appointments=zip(appointments,patients)
     return render(request,'smartcare/nurse_delete_appointment.html',
-                #   {'appointments':appointments,'nurse':nurse} 
+                  {'appointments':appointments,'nurse':nurse} 
                   )
 
 
