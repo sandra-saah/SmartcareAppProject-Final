@@ -91,5 +91,12 @@ class PatientDischargeDetails(models.Model):
     OtherCharge=models.PositiveIntegerField(null=False)
     total=models.PositiveIntegerField(null=False)    
 
+class Note(models.Model):
+    doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    content = models.TextField()
+
+    def __str__(self):
+        return f'Note from {self.doctor} to {self.patient}'
 
 

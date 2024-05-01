@@ -109,6 +109,8 @@ urlpatterns = [
     path('nurse-view-appointment', views.nurse_view_appointment_view,name='nurse-view-appointment'),
     path('nurse-delete-appointment',views.nurse_delete_appointment_view,name='nurse-delete-appointment'),
     path('fetch_names/', views.fetch_names, name='fetch_names'),
+    path('leave_note/<int:appointment_id>/', views.leave_note_view, name='leave_note_view'),
+    path('view_notes/', views.view_notes, name='view_notes'),
 
 ]
 
@@ -124,6 +126,6 @@ urlpatterns +=[
     path('doctor-appointment', views.doctor_appointment_view,name='doctor-appointment'),
     path('doctor-view-appointment', views.doctor_view_appointment_view,name='doctor-view-appointment'),
     path('doctor-delete-appointment',views.doctor_delete_appointment_view,name='doctor-delete-appointment'),
-    # path('delete-appointment/<int:pk>', views.delete_appointment_view,name='delete-appointment'),
+    path('delete-appointment/<int:pk>', views.delete_appointment_view,name='delete-appointment'),
 ]
 

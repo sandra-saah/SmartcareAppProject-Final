@@ -1,6 +1,6 @@
 {% extends 'smartcare/doctor_base.html' %}
 {% block content %}
-{%load static%}
+{% load static %}
 
 <head>
   <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
@@ -35,20 +35,31 @@
           <th>Contact</th>
           <th>Address</th>
           <th>Appointment Date</th>
+          <th>Leave a Note</th> <!-- New column for leaving a note -->
         </tr>
       </thead>
-      {% for a,p in appointments %}
-      <tr>
-        <td>{{a.patientName}}</td>
-        <td>{{a.description}}</td>
-        <td>{{p.mobile}}</td>
-        <td>{{p.address}}</td>
-        <td>{{a.appointmentDate}}</td>
-      </tr>
-      {% endfor %}
+      <tbody>
+        {% for appointment, patient in appointments %}
+        <tr>
+          <td>{{ appointment.patientName }}</td>
+          <td>{{ appointment.description }}</td>
+          <td>{{ patient.mobile }}</td>
+          <td>{{ patient.address }}</td>
+          <td>{{ appointment.appointmentDate }}</td>
+          <td>
+            <!-- Form to leave a note -->
+            <form method="post" action="{% url 'leave_note_view' appointment.id %}">
+              {% csrf_token %}
+              <textarea name="content" rows="3" cols="30" placeholder="Enter your note here..."></textarea>
+              <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
     </table>
   </div>
 </div>
 
-
 {% endblock content %}
+
