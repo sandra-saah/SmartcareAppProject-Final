@@ -1,11 +1,12 @@
-from django.shortcuts import render, redirect, reverse
-from django.http import HttpResponseRedirect
+from django.shortcuts import render, redirect, reverse, get_object_or_404
+from django.http import HttpResponseRedirect, Http404
 from . import forms,models
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import Group, User
 from django.contrib.auth.decorators import login_required,user_passes_test
 from datetime import datetime,timedelta,date
 from django.http import JsonResponse
-from .models import Doctor, Nurse
+from .models import Doctor, Nurse, Note,  Patient, Appointment
+from .forms import NoteForm, AppointmentForm
 
 
 # Create your views here.
@@ -1074,5 +1075,35 @@ def delete_appointment_view(request,pk):
                   {'appointments':appointments,'nurse':nurse} 
                   )
 
+# ******************LEAVE NOTE DOCTOR TO PATIENT ***************
+# **********************************************************
 
+def leave_note_view(request, appointment_id):
+    appointment = get_object_or_404(Appointment, pk=appointment_id)
+    
+    
+    user_patient = get_object_or_404(User, id=appointment.patientId)
+    patient = get_object_or_404(Patient, user=user_patient)
+
+    user_doctor = get_object_or_404(User, id=appointment.doctorId)
+    doctor = get_object_or_404(Doctor, user=user_doctor)
+
+    if request.method == 'POST':
+        form = NoteForm(request.POST)
+        if form.is_valid():
+            note = form.save(commit=False)
+            note.doctor = doctor
+            note.patient = patient
+            note.save()
+            return redirect('doctor-appointment')  
+    else:
+        form = NoteForm()
+
+    
+    return render(request, 'smartcare/leave_note.html', {'form': form, 'appointment_id': appointment_id})
+
+
+def view_notes(request):
+    notes = Note.objects.all()  
+    return render(request, 'smartcare/view_notes.html', {'notes': notes})
 

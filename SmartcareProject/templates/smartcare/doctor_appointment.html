@@ -31,6 +31,10 @@
       background: linear-gradient(45deg, #2ed8b6, #59e0c5);
     }
 
+    .bg-c-yellow {
+      background: linear-gradient(45deg, #FFD700, #FFEF62); /* Adjust yellow gradient */
+    }
+
     .card {
       border-radius: 5px;
       -webkit-box-shadow: 0 1px 2.94px 0.06px rgba(4, 26, 55, 0.16);
@@ -86,10 +90,28 @@
           </div>
         </div>
       </div>
+      
+
+      <div class="col-md-4 col-xl-6">
+        <div class="card bg-c-yellow order-card">
+          <div class="card-block">
+            <a href="{% url 'view_notes' %}">
+              <h6 class="m-b-20">View Notes</h6>
+            </a>
+            <br>
+            <h2 class="text-right"><i class="fas fa-sticky-note f-left"></i></h2>
+          </div>
+        </div>
+      </div>
+      </div>
+      </div>
 
 
     </div>
   </div>
+
+  
   
 <br><br><br><br><br><br><br>
 {% endblock content %}
+

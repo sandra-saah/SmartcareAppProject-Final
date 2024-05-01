@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from . import models
+from .models import Note
 
 #for admin signup
 class AdminSigupForm(forms.ModelForm):
@@ -77,3 +78,7 @@ class PatientAppointmentForm(forms.ModelForm):
         fields=['appointmentDate','appointmentTime','description','status']
 
 
+class NoteForm(forms.ModelForm):
+    class Meta:
+        model = Note
+        fields = ['content']
