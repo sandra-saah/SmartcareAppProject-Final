@@ -35,20 +35,17 @@ Needs to be done :
 => description in discharge patient 
 * appointment update 
 
-* add date of birth for patient (Done by S ) / doctor  DONE / nurse DONE
-* Patient book appointment with nurse  (ayan) (DONE)
+
+
 * CSS needs to be done and fully finished (ayan)
-* get nurse invoice to pay (deon & andrew)
-* patient request a repeated prescription from doctor (deon )
-* doctor leave a comment for admin & patient (andrew)
-* admin check turnover (deon or/ andrew)
-* patient cancel appointment and book new one (S) (done)
-* doctor issue prescription (deon ) 
-* admin decide to change the fee for 10 min surgery applicable to all types of patients  (deon or/ andrew)
+
+
+* doctor leave a note (prescription) for admin & patient (andrew)
+
 
 CSS to change (ayan): 
  
-1. background colour : navy-blue, (in all website)
+1. background colour : , (in all website)
 2. h1 : make it 26px, h2: 16 px. 
 3. buttons : green (login), red (sign in)
 4. Book now button in home page h1, center in white 

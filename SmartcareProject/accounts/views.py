@@ -354,8 +354,10 @@ def update_appointment_view(request,pk):
         if appointmentForm.is_valid():
             appointment=appointmentForm.save(commit=False)
             appointment.doctorId=request.POST.get('doctorId')
+            appointment.nurseId=request.POST.get('nurseId')
             appointment.patientId=request.POST.get('patientId')
             appointment.doctorName=models.User.objects.get(id=request.POST.get('doctorId')).first_name
+            appointment.nurseName=models.User.objects.get(id=request.POST.get('nurseId')).first_name
             appointment.patientName=models.User.objects.get(id=request.POST.get('patientId')).first_name
             appointment.status=True
             appointment.save()
