@@ -1,6 +1,6 @@
-Create SmartCare app for final Desd Project
-# Prescription Note added for doctor 
-# all users register as : firstname1 & password : firstname123
+# Create SmartCare app for final Desd Project
+
+## all users register as : firstname1 & password : firstname123
 
 connect to django admin : create super user admin 
 connect to admin dashbaord usr: admin1 pw: admin123
@@ -31,8 +31,7 @@ Ms Lis Brown (patient ), cancels her appointment with mr first (doctor) and book
 - let an existing patient book appoitnemnt with dr First (doctor) on friday afternoon. dr first hold surgery with patient and issue prescription and invoice. let patient pay the bill. admin decides to change the fee for 10min surgery applicable to all patients.
 
 
-Needs to be done : 
 
 
-* CSS needs to be done and fully finished (ayan)
+
 
