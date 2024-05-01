@@ -1,11 +1,17 @@
 # Create SmartCare app for final Desd Project
 
+run file : 
+
+docker-compose up -d --build 
+
+
 ## all users register as : firstname1 & password : firstname123
+ - in some cases pw: firstname1 
 
 connect to django admin : create super user admin 
 connect to admin dashbaord usr: admin1 pw: admin123
-connect to nurse dashboard usr : ayan1 pw : ayan123
-connect to doctor dashboard user: sandra1 pw: sandra123
+connect to nurse dashboard usr : best1 pw : best123
+connect to doctor dashboard user: First1 pw: first1
 connect to patient dashboard user: noah1 pw: noah123
 
 - Ensure the consistencies between the burndown chart and the sprint backlog (e.g., in terms of the number of tasks/hours estimated).
@@ -29,7 +35,6 @@ Ms Lis Brown (patient ), cancels her appointment with mr first (doctor) and book
 
 ## Test 5: (DONE)
 - let an existing patient book appoitnemnt with dr First (doctor) on friday afternoon. dr first hold surgery with patient and issue prescription and invoice. let patient pay the bill. admin decides to change the fee for 10min surgery applicable to all patients.
-
 
 
 
