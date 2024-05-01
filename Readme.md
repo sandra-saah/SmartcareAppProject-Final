@@ -1,5 +1,5 @@
 Create SmartCare app for final Desd Project
-TURNOVER ADDED 
+# CSS added still some left waiting for ayan 
 # all users register as : firstname1 & password : firstname123
 
 connect to django admin : create super user admin 
